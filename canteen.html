@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIT Smart Campus Portal</title>
+
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #F5F0E6;
+            color: #303936;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #174C4B;
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 4px solid #B8734E;
+        }
+
+        header h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+            color: #FFFFFF;
+        }
+
+        header p {
+            color: #E1EAE5;
+        }
+
+        .portal-nav {
+            background: #FFFFFF;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #DDD8CD;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .portal-nav a {
+            color: #174C4B;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .portal-nav a:hover {
+            color: #B8734E;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: auto;
+            padding: 25px 18px;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 430px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            text-align: left;
+            padding: 65px 55px;
+            overflow: hidden;
+            border-radius: 18px;
+            margin-bottom: 35px;
+            background:
+                linear-gradient(90deg,
+                    rgba(15, 55, 53, 0.94),
+                    rgba(23, 76, 75, 0.70),
+                    rgba(23, 76, 75, 0.20)),
+                url("https://kit.ac.in/kit/web-assets/img/home/home-slider.png");
+            background-size: cover;
+            background-position: center;
+            border: 1px solid #B8734E;
+            box-shadow: 0 12px 30px rgba(23, 76, 75, 0.16);
+        }
+
+        .hero h2 {
+            font-size: clamp(30px, 5vw, 48px);
+            max-width: 650px;
+            line-height: 1.2;
+            margin-bottom: 18px;
+            color: #FFFFFF;
+        }
+
+        .hero p {
+            color: #F0F2EC;
+            font-size: 17px;
+            max-width: 570px;
+        }
+
+        .hero .hero-tag {
+            color: #E6C09D;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        section {
+            margin-bottom: 40px;
+            scroll-margin-top: 85px;
+        }
+
+        section h2 {
+            color: #174C4B;
+            margin-bottom: 18px;
+            border-bottom: 2px solid #B8734E;
+            padding-bottom: 10px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .service-card,
+        .info-item,
+        .card {
+            background: #FFFFFF;
+            color: #303936;
+            border: 1px solid #E5DED2;
+            border-radius: 12px;
+            padding: 22px;
+            transition: 0.3s;
+            box-shadow: 0 4px 14px rgba(40, 55, 50, 0.05);
+        }
+
+        .service-card {
+            text-decoration: none;
+            display: block;
+        }
+
+        .service-card:hover,
+        .info-item:hover {
+            transform: translateY(-5px);
+            border-color: #B8734E;
+            box-shadow: 0 10px 24px rgba(40, 55, 50, 0.12);
+        }
+
+        .service-card span {
+            font-size: 32px;
+        }
+
+        .service-card h3,
+        .info-item h3 {
+            color: #174C4B;
+            margin: 8px 0;
+        }
+
+        .info-item p,
+        .service-card p {
+            color: #626D67;
+            font-size: 14px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 7px;
+            border: 1px solid #D4D8D1;
+            background: #FFFFFF;
+            color: #303936;
+            margin: 8px 0;
+            font-size: 15px;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: 2px solid #B8734E;
+            border-color: #B8734E;
+        }
+
+        button {
+            background: #174C4B;
+            color: #FFFFFF;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            margin: 6px 4px 6px 0;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #236765;
+        }
+
+        .delete-btn {
+            background: #A83E3E;
+        }
+
+        .delete-btn:hover {
+            background: #862F2F;
+        }
+
+        .notice,
+        .event {
+            background: #FFFFFF;
+            color: #303936;
+            padding: 15px;
+            margin: 12px 0;
+            border-left: 4px solid #B8734E;
+            border-radius: 8px;
+            box-shadow: 0 3px 12px rgba(40, 55, 50, 0.05);
+        }
+
+        .notice p,
+        .event p {
+            color: #626D67;
+        }
+
+        #aiAnswer {
+            background: #FFFFFF;
+            color: #303936;
+            padding: 18px;
+            margin-top: 15px;
+            border-radius: 10px;
+            border: 1px solid #D8DED6;
+            min-height: 60px;
+            overflow-wrap: anywhere;
+        }
+
+        #aiAnswer a {
+            color: #174C4B;
+        }
+
+        #qrcode {
+            background: #FFFFFF;
+            padding: 12px;
+            width: fit-content;
+            margin: 15px auto;
+            border-radius: 8px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            background: #174C4B;
+            padding: 25px;
+            color: #E1EAE5;
+            margin-top: 40px;
+            border-top: 4px solid #B8734E;
+        }
+
+        .small-text {
+            font-size: 12px;
+            color: #777F78;
+            margin-top: 12px;
+        }
+
+        @media(max-width: 600px) {
+            header h1 {
+                font-size: 23px;
+            }
+
+            .hero {
+                min-height: 350px;
+                padding: 35px 22px;
+            }
+
+            .hero h2 {
+                font-size: 24px;
+            }
+
+            .portal-nav {
+                gap: 12px;
+            }
+
+            .portal-nav a {
+                font-size: 12px;
+            }
+
+            .container {
+                padding: 18px 12px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <h1>🎓 KIT Smart Campus Portal</h1>
+        <p>Kanpur Institute of Technology</p>
+        <p>One Portal • All Campus Information</p>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav class="portal-nav">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#notice-section">Notices</a>
+        <a href="#events-section">Events</a>
+        <a href="#information-section">Campus Info</a>
+        <a href="#qr-section">QR Code</a>
+        <a href="#assistant-section">Assistant</a>
+    </nav>
+
+    <main class="container">
+
+
+        <!-- HOME -->
+        <section id="home" class="hero">
+
+            <p class="hero-tag">KANPUR INSTITUTE OF TECHNOLOGY</p>
+
+            <h2>Welcome to KIT Smart Campus Portal</h2>
+
+            <p>
+                Your campus, your services, your information —
+                everything you need in one digital place.
+            </p>
+
+            <br>
+
+            <a href="#services">
+                <button>Explore Campus Services →</button>
+            </a>
+
+            <a href="#information-section">
+                <button>Discover KIT</button>
+            </a>
+
+        </section>
+
+
+        <!-- SERVICES -->
+        <section id="services">
+            <h2>🌟 Campus Services</h2>
+
+            <div class="info-grid">
+
+                <a href="library.html" class="service-card">
+                    <span>📚</span>
+                    <h3>Library</h3>
+                    <p>Books, journals and study resources.</p>
+                </a>
+
+                <a href="computer-lab.html" class="service-card">
+                    <span>💻</span>
+                    <h3>Computer Lab</h3>
+                    <p>Computer laboratories and practical learning.</p>
+                </a>
+
+                <a href="canteen.html" class="service-card">
+                    <span>🍔</span>
+                    <h3>Canteen</h3>
+                    <p>Food and refreshment information.</p>
+                </a>
+
+                <a href="sports.section" class="service-card">
+                    <span>🏆</span>
+                    <h3>Sports</h3>
+                    <p>Sports facilities and activities.</p>
+                </a>
+
+                <a href="transport.html" class="service-card">
+                    <span>🚌</span>
+                    <h3>Transport</h3>
+                    <p>College bus and transport information.</p>
+                </a>
+
+                <a href="placement.html" class="service-card">
+                    <span>💼</span>
+                    <h3>Placement</h3>
+                    <p>Training, internships and placement information.</p>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- LIBRARY -->
+        <section id="library-section">
+            <h2>📚 College Library</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h3>Library Overview</h3>
+                    <p>Explore books, journals and learning resources.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Location & Timings</h3>
+                    <p>Check the official library location and timings with the college.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Facilities</h3>
+                    <p>Reading space, reference books and study resources.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Library Rules</h3>
+                    <p>Maintain silence and follow library borrowing rules.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPUTER LAB -->
+        <section id="computer-lab-section">
+            <h2>💻 Computer Laboratories</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h3>Lab Information</h3>
+                    <p>Computer laboratories for practical learning.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Facilities</h3>
+                    <p>Computers and learning resources.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Lab Timings</h3>
+                    <p>Check the official lab schedule.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Lab Rules</h3>
+                    <p>Follow instructor instructions and handle equipment carefully.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CANTEEN -->
+        <section id="canteen-section">
+            <h2>🍔 College Canteen</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h3>Food Services</h3>
+                    <p>Information about food and refreshments on campus.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Location</h3>
+                    <p>Check the actual canteen location with the college.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Opening Hours</h3>
+                    <p>Check official canteen timings.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Facilities</h3>
+                    <p>Seating and refreshment facilities.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SPORTS -->
+        <section id="sports-section">
+            <h2>🏆 Sports & Activities</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h3>Sports Facilities</h3>
+                    <p>Information about available campus sports facilities.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Indoor Games</h3>
+                    <p>Check available indoor games and activities.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Outdoor Games</h3>
+                    <p>Check available outdoor sports facilities.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Sports Events</h3>
+                    <p>Information about competitions and activities.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRANSPORT -->
+        <section id="transport-section">
+            <h2>🚌 College Transport</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h3>Bus Services</h3>
+                    <p>Information about college bus services.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Bus Routes</h3>
+                    <p>Check verified routes and pickup points.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Transport Timings</h3>
+                    <p>Check official departure and arrival timings.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Contact</h3>
+                    <p>Contact the college for transport enquiries.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PLACEMENT -->
+        <section id="placement-section">
+            <h2>💼 Training & Placement</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h3>Placement Cell</h3>
+                    <p>Information about the Training and Placement Cell.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Training Programs</h3>
+                    <p>Skill development and career preparation.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Recruiters</h3>
+                    <p>Check verified recruiter information.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Internships</h3>
+                    <p>Check official internship opportunities.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- COMPLETE CAMPUS INFORMATION -->
+        <section id="information-section">
+
+            <h2>🏫 About Kanpur Institute of Technology</h2>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <h3>🎓 Institute Name</h3>
+                    <p>Kanpur Institute of Technology (KIT)</p>
+                    <p>Established: 2004</p>
+                    <p>Type: Private, Co-educational Institute</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>👨‍💼 Director</h3>
+                    <p><strong>Name:</strong> Prof. (Dr.) Brajesh Varshney</p>
+                    <p><strong>Designation:</strong> Director</p>
+                    <p><strong>Email:</strong> bv@kit.ac.in</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>🏛️ Promoting Society</h3>
+                    <p><strong>Name:</strong> Indus Technical Education Society</p>
+                    <p><strong>Secretary:</strong> Anil Kumar Agarwal</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>🎓 Affiliated University</h3>
+                    <p>Dr. A.P.J. Abdul Kalam Technical University (AKTU)</p>
+                    <p>Lucknow, Uttar Pradesh</p>
+                    <a href="https://aktu.ac.in/" target="_blank" rel="noopener">
+                        Visit AKTU Website
+                    </a>
+                </div>
+
+                <div class="info-item">
+                    <h3>✅ AICTE Approval</h3>
+                    <p>Approved by All India Council for Technical Education (AICTE).</p>
+                    <a href="https://www.aicte-india.org/" target="_blank" rel="noopener">
+                        AICTE Website
+                    </a>
+                </div>
+
+                <div class="info-item">
+                    <h3>🏅 NAAC Accreditation</h3>
+                    <p><strong>Grade:</strong> A</p>
+                    <p><strong>CGPA:</strong> 3.20</p>
+                    <p>Accredited on 08 July 2023.</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>⭐ Autonomous Status</h3>
+                    <p>UGC-conferred autonomous status.</p>
+                    <p><strong>Period:</strong> 2024-25 to 2033-34</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>📍 Campus Address</h3>
+                    <p>A-1, UPSIDC Industrial Area, Rooma, Kanpur, Uttar Pradesh - 208001, India.</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>📞 General Enquiry</h3>
+                    <p><strong>Phone:</strong> 7705011891</p>
+                    <p><strong>Email:</strong> info@kit.ac.in</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>📝 Admission Enquiry</h3>
+                    <p><strong>Phone:</strong> 8262905906</p>
+                    <p><strong>Email:</strong> ag@kit.ac.in</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>💼 Placement Department</h3>
+                    <p><strong>Phone:</strong> 7081191710</p>
+                    <p><strong>Email:</strong> dean.tnp@kit.ac.in</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>🌐 Official Website</h3>
+                    <p>Visit the official KIT website for updates and information.</p>
+                    <a href="https://kit.ac.in/kit/" target="_blank" rel="noopener">
+                        Visit KIT Website
+                    </a>
+                </div>
+
+            </div>
+
+            <h2 style="margin-top:35px;">📖 Courses & Programs</h2>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <h3>Engineering</h3>
+                    <p>B.Tech programs</p>
+                    <p>Computer Science, IT and other engineering branches.</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>Management</h3>
+                    <p>MBA programs</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>Computer Applications</h3>
+                    <p>MCA and BCA programs</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>Other Programs</h3>
+                    <p>Polytechnic and other programs. Check the official website for current offerings.</p>
+                </div>
+
+            </div>
+
+            <h2 style="margin-top:35px;">🔗 Important Official Links</h2>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <h3>Affiliations & Approvals</h3>
+                    <a href="https://kit.ac.in/kitp/kit/affiliations-approvals/" target="_blank" rel="noopener">
+                        View Details
+                    </a>
+                </div>
+
+                <div class="info-item">
+                    <h3>Important Functionaries</h3>
+                    <a href="https://kit.ac.in/kitp/kit/why-kit/kit-at-a-glance/important-functionaries/"
+                        target="_blank" rel="noopener">
+                        View College Officials
+                    </a>
+                </div>
+
+                <div class="info-item">
+                    <h3>Mandatory Disclosure</h3>
+                    <a href="https://kit.ac.in/kitp/mandatory-disclosure/" target="_blank" rel="noopener">
+                        View Mandatory Disclosure
+                    </a>
+                </div>
+
+                <div class="info-item">
+                    <h3>Contact KIT</h3>
+                    <a href="https://kit.ac.in/kitp/kit/contact-us/" target="_blank" rel="noopener">
+                        Contact Official College
+                    </a>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- NOTICES -->
+        <section id="notice-section">
+            <h2>📢 Important Notices</h2>
+
+            <div class="card">
+                <h3>Add New Notice</h3>
+                <input type="text" id="noticeTitle" placeholder="Enter notice title">
+                <textarea id="noticeDescription" placeholder="Enter notice details" rows="3"></textarea>
+                <button onclick="addNotice()">Add Notice</button>
+            </div>
+
+            <div id="noticeList"></div>
+
+            <p class="small-text">
+                Notices are saved in this browser only. They are not automatically shared with other students.
+            </p>
+        </section>
+
+        <!-- EVENTS -->
+        <section id="events-section">
+            <h2>🎉 College Events</h2>
+
+            <div class="info-grid">
+                <div class="event">
+                    <h3>🎓 Orientation Program</h3>
+                    <p>Information about student orientation activities.</p>
+                </div>
+
+                <div class="event">
+                    <h3>💻 Technical Events</h3>
+                    <p>Technical workshops, coding and learning activities.</p>
+                </div>
+
+                <div class="event">
+                    <h3>🎭 Cultural Activities</h3>
+                    <p>Cultural programs and student participation.</p>
+                </div>
+
+                <div class="event">
+                    <h3>🏆 Sports Activities</h3>
+                    <p>Sports competitions and campus activities.</p>
+                </div>
+            </div>
+            <p class="small-text">These are sample event categories, not confirmed upcoming events.</p>
+        </section>
+
+        <!-- QR GENERATOR -->
+        <section id="qr-section">
+            <h2>📱 Campus QR Code Generator</h2>
+
+            <div class="card center">
+                <p>Generate a QR code for your campus portal link.</p>
+
+                <input type="url" id="qrInput" placeholder="Paste your published website URL">
+
+                <button onclick="generateQR()">Generate QR Code</button>
+                <button onclick="clearQR()">Clear</button>
+
+                <div id="qrcode"></div>
+
+                <p class="small-text">
+                    Publish your website online first. A local file link will not work for other students.
+                </p>
+            </div>
+        </section>
+
+        <!-- CAMPUS ASSISTANT -->
+        <section id="assistant-section">
+            <h2>🤖 Campus Assistant</h2>
+
+            <div class="card">
+                <p>Ask a question about KIT campus services.</p>
+
+                <input type="text" id="aiQuestion" placeholder="Example: Where is the library?">
+
+                <button onclick="askCampusAssistant()">Ask Assistant</button>
+
+                <div id="aiAnswer" aria-live="polite">
+                    Your answer will appear here.
+                </div>
+
+                <p class="small-text">
+                    This is a rule-based assistant prototype, not a connected AI model.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <h3>🎓 KIT Smart Campus Portal</h3>
+        <p>Kanpur Institute of Technology</p>
+        <p>Designed as a student campus portal project.</p>
+        <p class="small-text">Verify official college information before relying on it.</p>
+    </footer>
+
+    <script>
+
+        // ===============================
+        // NOTICE MANAGEMENT
+        // ===============================
+
+        let notices = [];
+
+        try {
+            notices = JSON.parse(localStorage.getItem("kitNotices") || "[]");
+            if (!Array.isArray(notices)) notices = [];
+        } catch (error) {
+            notices = [];
+        }
+
+        function saveNotices() {
+            try {
+                localStorage.setItem("kitNotices", JSON.stringify(notices));
+            } catch (error) {
+                alert("Unable to save notices in this browser.");
+            }
+        }
+
+        function addNotice() {
+            const title = document.getElementById("noticeTitle").value.trim();
+            const description = document.getElementById("noticeDescription").value.trim();
+
+            if (!title || !description) {
+                alert("Please enter both notice title and details.");
+                return;
+            }
+
+            notices.unshift({
+                title: title,
+                description: description,
+                date: new Date().toLocaleDateString()
+            });
+
+            saveNotices();
+            displayNotices();
+
+            document.getElementById("noticeTitle").value = "";
+            document.getElementById("noticeDescription").value = "";
+        }
+
+        function displayNotices() {
+            const list = document.getElementById("noticeList");
+            list.innerHTML = "";
+
+            if (notices.length === 0) {
+                list.textContent = "No notices available yet.";
+                return;
+            }
+
+            notices.forEach((notice, index) => {
+                const box = document.createElement("div");
+                box.className = "notice";
+
+                const heading = document.createElement("h3");
+                heading.textContent = "📢 " + notice.title;
+
+                const description = document.createElement("p");
+                description.textContent = notice.description;
+
+                const date = document.createElement("small");
+                date.textContent = "Date: " + notice.date;
+
+                const remove = document.createElement("button");
+                remove.className = "delete-btn";
+                remove.textContent = "Delete";
+                remove.onclick = function () {
+                    deleteNotice(index);
+                };
+
+                box.appendChild(heading);
+                box.appendChild(description);
+                box.appendChild(date);
+                box.appendChild(document.createElement("br"));
+                box.appendChild(remove);
+
+                list.appendChild(box);
+            });
+        }
+
+        function deleteNotice(index) {
+            if (confirm("Are you sure you want to delete this notice?")) {
+                notices.splice(index, 1);
+                saveNotices();
+                displayNotices();
+            }
+        }
+
+        // ===============================
+        // QR CODE GENERATOR
+        // ===============================
+
+        let qrObject = null;
+
+        function generateQR() {
+            const url = document.getElementById("qrInput").value.trim();
+            const qrBox = document.getElementById("qrcode");
+
+            if (!url) {
+                alert("Please enter your published website URL.");
+                return;
+            }
+
+            try {
+                const parsedURL = new URL(url);
+
+                if (parsedURL.protocol !== "https:" && parsedURL.protocol !== "http:") {
+                    alert("Please enter a valid website URL.");
+                    return;
+                }
+
+                if (typeof QRCode === "undefined") {
+                    alert("QR library could not load. Please check your internet connection.");
+                    return;
+                }
+
+                qrBox.innerHTML = "";
+
+                qrObject = new QRCode(qrBox, {
+                    text: url,
+                    width: 180,
+                    height: 180,
+                    colorDark: "#160f28",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+
+            } catch (error) {
+                alert("Please enter a valid URL, starting with https://");
+            }
+        }
+
+        function clearQR() {
+            document.getElementById("qrInput").value = "";
+            document.getElementById("qrcode").innerHTML = "";
+            qrObject = null;
+        }
+
+        // ===============================
+        // CAMPUS ASSISTANT
+        // ===============================
+
+        function askCampusAssistant() {
+
+            const question = document.getElementById("aiQuestion")
+                .value.toLowerCase().trim();
+
+            const answerBox = document.getElementById("aiAnswer");
+
+            if (!question) {
+                answerBox.textContent = "Please enter a question first.";
+                return;
+            }
+
+            let answer = "";
+
+            if (question.includes("library") || question.includes("book")) {
+                answer = "📚 Library: KIT provides library and learning resources. Check official library details and timings with the college.";
+            }
+
+            else if (question.includes("computer") || question.includes("lab")) {
+                answer = "💻 Computer Lab: Ask the department for lab locations, available facilities and practical schedules.";
+            }
+
+            else if (question.includes("canteen") || question.includes("food")) {
+                answer = "🍔 Canteen: Contact the college for the current canteen location, facilities and timings.";
+            }
+
+            else if (question.includes("sport") || question.includes("game")) {
+                answer = "🏆 Sports: Contact the college for details about available sports facilities and activities.";
+            }
+
+            else if (question.includes("transport") || question.includes("bus")) {
+                answer = "🚌 Transport: Contact the college administration for verified bus routes, pickup points and timings.";
+            }
+
+            else if (question.includes("placement") ||
+                question.includes("job") ||
+                question.includes("internship")) {
+                answer = "💼 Training & Placement: Visit the official KIT website for placement information and updates.";
+            }
+
+            else if (question.includes("notice")) {
+                answer = "📢 Notices: Visit the Important Notices section on this portal.";
+            }
+
+            else if (question.includes("event")) {
+                answer = "🎉 Events: Visit the Events section to see campus event categories.";
+            }
+
+            else if (question.includes("address") ||
+                question.includes("location") ||
+                question.includes("where is college")) {
+                answer = "📍 KIT is located at A-1, UPSIDC Industrial Area, Rooma, Kanpur, Uttar Pradesh – 208001.";
+            }
+
+            else if (question.includes("contact") ||
+                question.includes("phone")) {
+                answer = "📞 For current contact information, please visit the official KIT website.";
+            }
+
+            else if (question.includes("website")) {
+                answer = "🌐 Official KIT Website: https://kit.ac.in/";
+            }
+
+            else if (question.includes("hello") || question.includes("hi")) {
+                answer = "👋 Hello! Welcome to KIT Smart Campus Portal. How can I help you?";
+            }
+
+            else if (question.includes("thank")) {
+                answer = "😊 You're welcome! Happy to help.";
+            }
+
+            else {
+                answer = "Sorry, I don't have that information yet. Try asking about Library, Lab, Canteen, Sports, Transport, Placement, Notices or Events.";
+            }
+
+            answerBox.textContent = answer;
+        }
+
+        // Enter key support for assistant
+        document.getElementById("aiQuestion").addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                askCampusAssistant();
+            }
+        });
+
+        // LOAD SAVED NOTICES
+        displayNotices();
+
+    </script>
+
+</body>
+
+</html>
